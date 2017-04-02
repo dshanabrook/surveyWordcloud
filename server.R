@@ -1,15 +1,16 @@
 	
 shinyServer(function(input, output, session) {
 	output$value <- renderText({ input$wordsToExclude })
-	excludeWords <- reactive(unlist(strsplit(input$wordsToExclude,",")))
+	excludeWords <- reactive(removeSpaces(input$wordsToExclude))
 	questionNumber <- reactive(match(input$theQuestion, theQuestions))
 	
 	corpusQ <- reactive(getCorpusQ(getQuestions(data,questionNumber())))
-	corpusD <- reactive(trimCorpus(corpusQ(), input$noNumbers, input$noQuestions,excludeWords()))
+	corpusD <- reactive(trimCorpus(corpusQ(), input$noNumbers, input$noQuestions, excludeWords()))
 	corpusDF <- reactive(createCorpusDF(corpusD()))
 	
-output$mainTitle <- renderText({
-         as.character(theQuestions[questionNumber()])})
+	output$mainTitle <- renderText({
+         as.character(theQuestions[questionNumber()])
+    })
 
 	output$plot <- renderPlot({
 		if (is.numeric(data[,questionNumber()]))

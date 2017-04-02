@@ -7,13 +7,13 @@ fluidPage(
   sidebarLayout(
     sidebarPanel(
       selectInput("theQuestion", "Choose question: ", multiple=FALSE, theQuestions),
-      textAreaInput("wordsToExclude", "Exclude these words:(no spaces) ", theDefaultExclusionWords,rows=4),
+      textAreaInput("wordsToExclude", "Exclude these words: ", theDefaultExclusionWords,rows=4),
   #    submitButton(text="Update", icon=NULL),
       hr(),
-    sliderInput("max","Maximum Number of Words:",
+    sliderInput("max","Number of words in cloud:",
                   min = minWords,  max = maxWords,  value = defaultWords),
     checkboxInput("noQuestions", "Remove question words from cloud?", value=T),
-    checkboxInput("noNumbers", "Remove Numbers?", value=T),
+    checkboxInput("noNumbers", "Remove numbers?", value=T),
  	tags$div(class = "header", checked = NA,
                tags$a(href= theDataSource))),
 
