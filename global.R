@@ -20,7 +20,7 @@ dataInputFile.csv <- "data/basicIncome.csv"
 
 theWebPageTitle <- "Analyze survey responses using Word Clouds"
 theWebPageTitle <- "Basic Income - What it's like, raw responses"
-theDefaultExclusionWords <- "kes, give, spent, buying, remaining, pay, paid, bought, buy, also, kept, amount, join, transfer, airtime, take, will, use, made, can, get, since, given, now, able"
+theDefaultExclusionWords <- "kes, give, spent, buying, remaining, pay, paid, bought, buy, also, kept, amount, join, transfer, airtime, take, will, use, made, can, get, since, given, now, able,money, receiving, transfers,"
 
 theDataSource <- "https://docs.google.com/spreadsheets/d/1umh464Da62x6gY5zuEzlYa4Q2Fiq9igW78CQhVrGTtU/edit#gid=1770330013"
 

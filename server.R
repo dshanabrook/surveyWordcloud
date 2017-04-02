@@ -9,7 +9,7 @@ shinyServer(function(input, output, session) {
 	corpusDF <- reactive(createCorpusDF(corpusD()))
 	
 	output$mainTitle <- renderText({
-         as.character(theQuestions[questionNumber()])
+         paste(questionNumber(), ": ", as.character(theQuestions[questionNumber()]))
     })
 
 	output$plot <- renderPlot({
