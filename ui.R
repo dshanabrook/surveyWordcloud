@@ -1,5 +1,13 @@
 #questionAnalysis
 #change these defaults for your application
+#word cloud parameter defaults:
+minCloud <- 1
+maxCloud <- 30
+defaultCloud <- 10
+
+minFreq <- 1
+maxFreq <- 30
+defaultFreq <- 10
 
 fluidPage(
   titlePanel(theWebPageTitle, windowTitle = theWebPageTitle),		
@@ -8,10 +16,17 @@ fluidPage(
     sidebarPanel(
       selectInput("theQuestion", "Choose question: ", multiple=FALSE, theQuestions),
       textAreaInput("wordsToExclude", "Exclude these words: ", theDefaultExclusionWords,rows=4),
-  #    submitButton(text="Update", icon=NULL),
-      hr(),
-    sliderInput("max","Number of words in cloud:",
-                  min = minWords,  max = maxWords,  value = defaultWords),
+
+    checkboxInput("doWordCloud", "Plot Word Cloud?", value=T),
+    
+    conditionalPanel(condition= "input.doWordCloud == true",
+    	  sliderInput("wdsCloud","Number of words in cloud:",
+                  min = minCloud,  max = maxCloud,  value = defaultCloud)),
+                  
+     conditionalPanel(condition= "input.doWordCloud == false",
+    	    sliderInput("wdsFreq","Minimum word count shown:",
+                  min = minFreq,  max = maxFreq,  value = defaultFreq)),
+    
     checkboxInput("noQuestions", "Remove question words from cloud?", value=T),
     checkboxInput("noNumbers", "Remove numbers?", value=T),
  	tags$div(class = "header", checked = NA,

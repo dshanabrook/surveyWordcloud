@@ -10,6 +10,7 @@ library(SnowballC)
 library(shiny)
 library(tm)
 library(wordcloud)
+library(ggplot2)
 
 #constants: 
 #theWebPageTitle
@@ -24,12 +25,8 @@ theDefaultExclusionWords <- "kes, give, spent, buying, remaining, pay, paid, bou
 
 theDataSource <- "https://docs.google.com/spreadsheets/d/1umh464Da62x6gY5zuEzlYa4Q2Fiq9igW78CQhVrGTtU/edit#gid=1770330013"
 
-#word cloud parameter defaults:
-minWords <- 1
-maxWords <- 30
-defaultWords <- 10
 
-doDebug <- F
+doDebug <- T
 
 getQuestions <- function(data, questionNumber=NULL) {
 	questions <- theQuestions[1,questionNumber]
@@ -41,6 +38,7 @@ getQuestions <- function(data, questionNumber=NULL) {
 	}
 
 getCorpusQ <- function(questions){	
+	if (doDebug) cat("getCorpusQ")
 	corpusQ <- Corpus(VectorSource(questions))
 	corpusQ <- tm_map(corpusQ,  content_transformer(tolower))
 	corpusQ <- tm_map(corpusQ, removePunctuation)
@@ -54,16 +52,18 @@ changeYesNoToTFNA <- function(dataField){
 	return(dataField)
 }
 
-frequencies <- function(words){
-	corpus <- Corpus(VectorSource(words))    
-	dtm <- TermDocumentMatrix(corpus)
-	m <- as.matrix(dtm)
-	v <- sort(rowSums(m),decreasing=TRUE)
-	d <- data.frame(word = names(v),freq=v)
-	return(d)
+frequencies <- function(corpus, questionNumber,maxWords=1){
+	if (doDebug) cat("frequencies")
+	oneCorpus <- corpus[questionNumber]
+	dtm <- DocumentTermMatrix(oneCorpus)
+	freq <- colSums(as.matrix(dtm))
+	wf <- data.frame(word=names(freq), freq=freq) 
+#	wf <- subset(wf, freq>=maxWords)  
+	return(wf)	
 }
 
 trimCorpus <- function(corpusQ, noNumbers, noQuestions, wordsToExclude = "") {
+	if (doDebug) cat("trimCorpus")
 
 	corpusD <- tm_map(corpus, content_transformer(tolower))
 	if (noNumbers) 
@@ -73,10 +73,13 @@ trimCorpus <- function(corpusQ, noNumbers, noQuestions, wordsToExclude = "") {
 	corpusD <- tm_map(corpusD, removeWords, wordsToExclude)
 	corpusD <- tm_map(corpusD, removeWords,stopwords("en"))	
 	corpusD <- tm_map(corpusD, removePunctuation)
+	corpusD <- tm_map(corpusD, stripWhitespace)
+#	corpusD <- tm_map(corpusD, PlainTextDocument)
 	return(corpusD)
 	}
 
 createCorpusDF <- function(corpusD) {
+	if (doDebug) cat("createCorpusDF")
 	corpusDF <- data.frame(text = get("content", corpusD))
 	row.names(corpusDF) <- columnHeaders
 	return(corpusDF)
