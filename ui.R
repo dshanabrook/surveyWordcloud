@@ -6,10 +6,12 @@ maxCloud <- 30
 defaultCloud <- 10
 
 minFreq <- 1
-maxFreq <- 30
+maxFreq <- 4
 defaultFreq <- 10
-
+shinyUI(
 fluidPage(
+ tags$head(includeScript("googleAnalytics.js")),
+  
   titlePanel(theWebPageTitle, windowTitle = theWebPageTitle),		
 
   sidebarLayout(
@@ -37,3 +39,4 @@ fluidPage(
       h3(textOutput("mainTitle")),
       plotOutput("plot")
     )))
+    )
