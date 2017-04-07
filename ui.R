@@ -10,7 +10,7 @@ maxFreq <- 4
 defaultFreq <- 10
 shinyUI(
 fluidPage(
- tags$head(includeScript("googleAnalytics.js")),
+  tags$head(includeScript("googleAnalytics.js")),
   
   titlePanel(theWebPageTitle, windowTitle = theWebPageTitle),		
 

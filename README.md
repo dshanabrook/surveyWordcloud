@@ -12,5 +12,7 @@ theWebPageTitle - string, Title of web page
 theDefaultExclusionWords - string of words not to be included in the word clouds.  This can be added to dynamically.  words should not be seperated by spaces, only ","
 theDataSourceInput - string, reference only, this is the source of the survey data.
 
+Implemented Example with givedirectly.com data:
+https://bravo.shinyapps.io/givedirectly/
 
 
